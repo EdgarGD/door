@@ -31,12 +31,16 @@
             
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             --max-width: 1280px;
+            --header-height: 80px;
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--header-height) + 20px); /* ✅ Якоря не прячут контент */
+        }
         body {
             font-family: var(--font-sans);
             background: var(--color-bg);
@@ -47,31 +51,30 @@
 
         img { max-width: 100%; display: block; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
-        button { font-family: inherit; cursor: pointer; border: none; background: none; }        ul { list-style: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        ul { list-style: none; }
 
         .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER (Фиксированный, но с отступами в контенте) ===== */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
+            height: var(--header-height);
             z-index: 100;
-            padding: 16px 0;
-            transition: var(--transition);
-            background: transparent;
-        }
-
-        .header.scrolled {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--color-border);
-            padding: 12px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .header-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
         }
 
         .logo {
@@ -96,7 +99,8 @@
             bottom: 0; left: 0;
             width: 0; height: 2px;
             background: var(--color-accent);
-            transition: var(--transition);        }
+            transition: var(--transition);
+        }
         .nav a:hover { color: var(--color-text); }
         .nav a:hover::after { width: 100%; }
 
@@ -106,8 +110,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
-        .header-phone svg { width: 18px; height: 18px; color: var(--color-accent); }
+        .header-phone svg { width: 18px; height: 18px; color: var(--color-accent); flex-shrink: 0; }
 
         .burger {
             display: none;
@@ -123,29 +128,46 @@
             transition: var(--transition);
         }
 
+        /* ===== SECTIONS BASE ===== */
+        section { padding-top: 120px; padding-bottom: 100px; } /* ✅ Гарантирует отступ под шапкой */
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-header h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            color: var(--color-dark);
+        }
+        .section-header p {
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         /* ===== HERO ===== */
         .hero {
-            min-height: 92vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: #fff;
             position: relative;
             overflow: hidden;
-            padding: 120px 0 80px;
         }
 
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: url('image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
-            opacity: 0.4;
+            background: url('image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/></svg>');
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;            max-width: 720px;
+            z-index: 2;
+            max-width: 720px;
+            padding-top: 40px;
         }
 
         .hero h1 {
@@ -194,7 +216,8 @@
             box-shadow: 0 8px 20px rgba(180, 138, 60, 0.45);
         }
 
-        .btn-outline {            background: rgba(255,255,255,0.1);
+        .btn-outline {
+            background: rgba(255,255,255,0.1);
             color: #fff;
             border: 1px solid rgba(255,255,255,0.25);
             backdrop-filter: blur(6px);
@@ -202,23 +225,6 @@
         .btn-outline:hover {
             background: rgba(255,255,255,0.18);
             border-color: rgba(255,255,255,0.4);
-        }
-
-        /* ===== SECTIONS ===== */
-        section { padding: 100px 0; }
-        .section-header { text-align: center; margin-bottom: 56px; }
-        .section-header h2 {
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-            color: var(--color-dark);
-        }
-        .section-header p {
-            color: var(--color-text-secondary);
-            font-size: 1.05rem;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
         /* ===== ADVANTAGES ===== */
@@ -243,7 +249,8 @@
 
         .adv-icon {
             width: 52px; height: 52px;
-            border-radius: var(--radius-md);            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -284,7 +291,6 @@
             border-color: transparent;
         }
 
-        /* Gallery */
         .gallery {
             position: relative;
             aspect-ratio: 4/3;
@@ -292,7 +298,8 @@
             overflow: hidden;
         }
 
-        .gallery-main {            width: 100%;
+        .gallery-main {
+            width: 100%;
             height: 100%;
             position: relative;
         }
@@ -341,7 +348,8 @@
             display: flex;
             gap: 6px;
             background: rgba(0,0,0,0.5);
-            padding: 4px 8px;            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 20px;
             z-index: 3;
         }
         .gallery-dot {
@@ -390,7 +398,8 @@
             color: var(--color-text-secondary);
             font-size: 0.8rem;
             padding: 4px 10px;
-            border-radius: 6px;            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            border: 1px solid var(--color-border);
         }
 
         .card-footer {
@@ -439,7 +448,8 @@
             display: flex; align-items: center; justify-content: center;
             background: #f3f4f6;
             transition: var(--transition);
-        }        .modal-close:hover { background: #e5e7eb; transform: rotate(90deg); }
+        }
+        .modal-close:hover { background: #e5e7eb; transform: rotate(90deg); }
 
         .modal h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
         .modal-product { color: var(--color-accent); font-weight: 500; margin-bottom: 24px; font-size: 0.95rem; }
@@ -488,7 +498,8 @@
             border-radius: var(--radius-md);
             transition: var(--transition);
         }
-        .submit-btn:hover { background: var(--color-accent-hover); }        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .submit-btn:hover { background: var(--color-accent-hover); }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
         .success-view {
             display: none;
@@ -537,7 +548,8 @@
             background: #fef3c7;
             border-radius: var(--radius-md);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;            flex-shrink: 0;
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
         .contact-info h4 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
         .contact-info p, .contact-info a {
@@ -586,6 +598,7 @@
             gap: 12px;
             font-size: 0.85rem;
         }
+
         /* ===== SCROLL ANIMATIONS ===== */
         .reveal {
             opacity: 0;
@@ -606,7 +619,7 @@
             .mobile-menu {
                 position: fixed;
                 top: 0; left: 0; right: 0; bottom: 0;
-                background: rgba(15, 23, 42, 0.95);
+                background: rgba(15, 23, 42, 0.97);
                 backdrop-filter: blur(12px);
                 display: flex;
                 flex-direction: column;
@@ -614,28 +627,30 @@
                 justify-content: center;
                 gap: 24px;
                 z-index: 99;
-                transform: translateY(-100%);
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
             }
-            .mobile-menu.open { transform: translateY(0); }
+            .mobile-menu.open { opacity: 1; visibility: visible; }
             .mobile-menu a { color: #fff; font-size: 1.3rem; font-weight: 600; }
-            .close-menu { position: absolute; top: 20px; right: 24px; font-size: 1.5rem; color: #fff; }
+            .close-menu { position: absolute; top: 20px; right: 24px; font-size: 1.5rem; color: #fff; padding: 8px; }
 
             .catalog-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
         }
 
         @media (max-width: 600px) {
             .hero-actions { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
-            section { padding: 70px 0; }
+            section { padding-top: 100px; padding-bottom: 80px; }
             .modal { padding: 24px; }
+            :root { --header-height: 64px; }
         }
     </style>
 </head>
 <body>
 
-<!-- HEADER --><header class="header" id="header">
+<!-- HEADER -->
+<header class="header" id="header">
     <div class="container header-inner">
         <a href="#" class="logo">Дверь<span>Маркет</span></a>
         <nav class="nav">
@@ -657,7 +672,7 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-    <button class="close-menu" id="closeMenu">✕</button>
+    <button class="close-menu" id="closeMenu" aria-label="Закрыть меню">✕</button>
     <a href="#advantages">Преимущества</a>
     <a href="#catalog">Каталог</a>
     <a href="#contacts">Контакты</a>
@@ -684,7 +699,8 @@
             <p>Мы сопровождаем клиента от первого звонка до установки последней двери</p>
         </div>
         <div class="advantages-grid">
-            <div class="advantage reveal">                <div class="adv-icon">🏭</div>
+            <div class="advantage reveal">
+                <div class="adv-icon">🏭</div>
                 <h3>Прямые поставки</h3>
                 <p>Работаем с 12 фабриками без посредников. Вы платите реальную рыночную цену без наценок.</p>
             </div>
@@ -733,7 +749,8 @@
                         <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop" alt="Дверь 1" class="active">
                         <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop" alt="Дверь 2">
                         <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop" alt="Дверь 3">
-                        <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&h=600&fit=crop" alt="Дверь 4">                        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&h=600&fit=crop" alt="Дверь 5">
+                        <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&h=600&fit=crop" alt="Дверь 4">
+                        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&h=600&fit=crop" alt="Дверь 5">
                         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop" alt="Дверь 6">
                     </div>
                     <button class="gallery-btn prev" aria-label="Предыдущее">❮</button>
@@ -782,7 +799,8 @@
                         <span>Матовое стекло</span>
                         <span>Алюминиевая кромка</span>
                     </div>
-                    <div class="card-footer">                        <div class="price">12 500 ₽ <small>за полотно</small></div>
+                    <div class="card-footer">
+                        <div class="price">12 500 ₽ <small>за полотно</small></div>
                         <button class="btn btn-primary" style="padding:10px 18px; font-size:0.95rem" onclick="openModal('Модерн Софт — 12 500 ₽')">Заказать</button>
                     </div>
                 </div>
@@ -831,7 +849,8 @@
         
         <div id="formView">
             <h2>Оформить заказ</h2>
-            <p class="modal-product" id="modalProduct"></p>            
+            <p class="modal-product" id="modalProduct"></p>
+            
             <form id="orderForm" novalidate>
                 <div class="form-group">
                     <label for="name">Имя *</label>
@@ -880,7 +899,8 @@
                     <h4>Шоурум</h4>
                     <p>г. Москва, ул. Мебельная, д. 15<br>ТЦ «Домашний», 2 этаж, павильон 214</p>
                 </div>
-            </div>            <div class="contact-card">
+            </div>
+            <div class="contact-card">
                 <div class="contact-icon">📞</div>
                 <div class="contact-info">
                     <h4>Телефоны</h4>
@@ -929,7 +949,8 @@
                 <p>Бесплатный замер</p>
                 <p>Профессиональный монтаж</p>
                 <p>Рассрочка 0%</p>
-            </div>            <div class="footer-col">
+            </div>
+            <div class="footer-col">
                 <h4>Контакты</h4>
                 <p>📞 8 (800) 123-45-67</p>
                 <p>✉️ info@dvermarket.ru</p>
@@ -944,12 +965,6 @@
 </footer>
 
 <script>
-    // ===== HEADER SCROLL EFFECT =====
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 40);
-    });
-
     // ===== MOBILE MENU =====
     const burger = document.getElementById('burger');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -975,10 +990,10 @@
         const dotsContainer = gallery.querySelector('.gallery-dots');
         let current = 0;
 
-        // Create dots
         images.forEach((_, i) => {
             const dot = document.createElement('div');
-            dot.className = `gallery-dot${i === 0 ? ' active' : ''}`;            dot.addEventListener('click', () => goTo(i));
+            dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
             dotsContainer.appendChild(dot);
         });
         const dots = dotsContainer.querySelectorAll('.gallery-dot');
@@ -1027,7 +1042,8 @@
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
     });
-    // ===== FORM VALIDATION & PHONE MASK =====
+
+    // ===== FORM =====
     phoneInput.addEventListener('input', (e) => {
         let val = e.target.value.replace(/\D/g, '');
         if (val.length > 0) {
@@ -1063,7 +1079,6 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Отправляем...';
 
-        // Simulate API call
         setTimeout(() => {
             formView.style.display = 'none';
             successView.classList.add('show');
@@ -1076,7 +1091,8 @@
     // ===== SCROLL REVEAL =====
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {                entry.target.classList.add('visible');
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
                 observer.unobserve(entry.target);
             }
         });
@@ -1087,3 +1103,4 @@
 
 </body>
 </html>
+
