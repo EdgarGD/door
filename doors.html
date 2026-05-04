@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДверьМаркет — Премиальные двери с установкой</title>
+    <style>
+        /* ===== DESIGN TOKENS ===== */
+        :root {
+            --color-bg: #faf9f7;
+            --color-surface: #ffffff;
+            --color-text: #111827;
+            --color-text-secondary: #6b7280;
+            --color-accent: #b48a3c;
+            --color-accent-hover: #967230;
+            --color-dark: #0f172a;
+            --color-border: #e5e7eb;
+            --color-success: #10b981;
+            --color-error: #ef4444;
+            
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 16px 40px rgba(0,0,0,0.12);
+            
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --max-width: 1280px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }        ul { list-style: none; }
+
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .header.scrolled {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 12px 0;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--color-dark);
+        }
+        .logo span { color: var(--color-accent); }
+
+        .nav ul { display: flex; gap: 32px; }
+        .nav a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--color-accent);
+            transition: var(--transition);        }
+        .nav a:hover { color: var(--color-text); }
+        .nav a:hover::after { width: 100%; }
+
+        .header-phone {
+            font-weight: 600;
+            color: var(--color-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-phone svg { width: 18px; height: 18px; color: var(--color-accent); }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+        }
+        .burger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--color-dark);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;            max-width: 720px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--color-accent);
+            background: linear-gradient(120deg, var(--color-accent) 0%, #d4af70 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 36px;
+            line-height: 1.7;
+        }
+
+        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(180, 138, 60, 0.35);
+        }
+        .btn-primary:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(180, 138, 60, 0.45);
+        }
+
+        .btn-outline {            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+            backdrop-filter: blur(6px);
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        /* ===== SECTIONS ===== */
+        section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-header h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            color: var(--color-dark);
+        }
+        .section-header p {
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== ADVANTAGES ===== */
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .advantage {
+            background: var(--color-surface);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+        }
+        .advantage:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .adv-icon {
+            width: 52px; height: 52px;
+            border-radius: var(--radius-md);            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+        }
+
+        .advantage h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .advantage p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== CATALOG ===== */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+        }
+
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-6px);
+            border-color: transparent;
+        }
+
+        /* Gallery */
+        .gallery {
+            position: relative;
+            aspect-ratio: 4/3;
+            background: #f3f4f6;
+            overflow: hidden;
+        }
+
+        .gallery-main {            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .gallery-main img.active {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--color-dark);
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+            z-index: 3;
+            opacity: 0;
+        }
+        .gallery:hover .gallery-btn { opacity: 1; }
+        .gallery-btn:hover { background: var(--color-accent); color: #fff; }
+        .gallery-btn.prev { left: 12px; }
+        .gallery-btn.next { right: 12px; }
+
+        .gallery-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 8px;            border-radius: 20px;
+            z-index: 3;
+        }
+        .gallery-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .gallery-dot.active { background: #fff; width: 16px; border-radius: 3px; }
+
+        .gallery-counter {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            z-index: 3;
+        }
+
+        .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+        .card-badge {
+            display: inline-flex;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        .card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 6px; }
+        .card-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 20px;
+        }
+        .card-specs span {
+            background: #f9fafb;
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 6px;            border: 1px solid var(--color-border);
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .price { font-size: 1.5rem; font-weight: 700; color: var(--color-dark); }
+        .price small { display: block; font-size: 0.8rem; font-weight: 400; color: var(--color-text-secondary); }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .modal {
+            background: var(--color-surface);
+            width: 100%; max-width: 480px;
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+        }
+        .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: #f3f4f6;
+            transition: var(--transition);
+        }        .modal-close:hover { background: #e5e7eb; transform: rotate(90deg); }
+
+        .modal h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .modal-product { color: var(--color-accent); font-weight: 500; margin-bottom: 24px; font-size: 0.95rem; }
+
+        .form-group { margin-bottom: 16px; position: relative; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--color-text-secondary);
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            background: #fafafa;
+            transition: var(--transition);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(180, 138, 60, 0.15);
+        }
+        .form-input::placeholder { color: #9ca3af; }
+        .form-input.error { border-color: var(--color-error); }
+
+        .error-msg {
+            color: var(--color-error);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-input.error + .error-msg { display: block; }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 14px;
+            background: var(--color-accent);
+            color: #fff;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .submit-btn:hover { background: var(--color-accent-hover); }        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .success-view {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .success-view.show { display: block; animation: fadeIn 0.4s ease; }
+        .success-icon {
+            width: 56px; height: 56px;
+            background: #d1fae5;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.5rem;
+        }
+        .success-view h3 { font-size: 1.3rem; margin-bottom: 8px; }
+        .success-view p { color: var(--color-text-secondary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== CONTACTS ===== */
+        .contacts { background: var(--color-surface); }
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .contact-card {
+            padding: 28px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: var(--transition);
+        }
+        .contact-card:hover {
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-icon {
+            width: 44px; height: 44px;
+            background: #fef3c7;
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;            flex-shrink: 0;
+        }
+        .contact-info h4 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .contact-info p, .contact-info a {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .contact-info a:hover { color: var(--color-accent); }
+
+        .map-wrapper {
+            width: 100%;
+            height: 360px;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            position: relative;
+        }
+        .map-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--color-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 48px 0 24px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 12px; font-weight: 600; }
+        .footer-col a, .footer-col p {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .footer-col a:hover { color: var(--color-accent); }
+        .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .nav { display: none; }
+            .burger { display: flex; }
+            .header-phone span { display: none; }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(12px);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                z-index: 99;
+                transform: translateY(-100%);
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .mobile-menu.open { transform: translateY(0); }
+            .mobile-menu a { color: #fff; font-size: 1.3rem; font-weight: 600; }
+            .close-menu { position: absolute; top: 20px; right: 24px; font-size: 1.5rem; color: #fff; }
+
+            .catalog-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-actions { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+            section { padding: 70px 0; }
+            .modal { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER --><header class="header" id="header">
+    <div class="container header-inner">
+        <a href="#" class="logo">Дверь<span>Маркет</span></a>
+        <nav class="nav">
+            <ul>
+                <li><a href="#advantages">Преимущества</a></li>
+                <li><a href="#catalog">Каталог</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+78001234567" class="header-phone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>8 (800) 123-45-67</span>
+        </a>
+        <button class="burger" id="burger" aria-label="Открыть меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu" id="closeMenu">✕</button>
+    <a href="#advantages">Преимущества</a>
+    <a href="#catalog">Каталог</a>
+    <a href="#contacts">Контакты</a>
+    <a href="tel:+78001234567" class="btn btn-primary" style="margin-top:12px">Позвонить</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container hero-content reveal">
+        <h1>Двери, которые<br><span>преображают пространство</span></h1>
+        <p>Более 500 моделей от ведущих производителей. Бесплатный замер, профессиональный монтаж и гарантия 5 лет. Доставляем по всей России.</p>
+        <div class="hero-actions">
+            <a href="#catalog" class="btn btn-primary">Смотреть каталог →</a>
+            <a href="#contacts" class="btn btn-outline">Получить консультацию</a>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="advantages">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2>Почему выбирают нас</h2>
+            <p>Мы сопровождаем клиента от первого звонка до установки последней двери</p>
+        </div>
+        <div class="advantages-grid">
+            <div class="advantage reveal">                <div class="adv-icon">🏭</div>
+                <h3>Прямые поставки</h3>
+                <p>Работаем с 12 фабриками без посредников. Вы платите реальную рыночную цену без наценок.</p>
+            </div>
+            <div class="advantage reveal">
+                <div class="adv-icon">📐</div>
+                <h3>Бесплатный замер</h3>
+                <p>Инженер выезжает в день обращения. Точный расчёт проёма, подбор комплектации на месте.</p>
+            </div>
+            <div class="advantage reveal">
+                <div class="adv-icon">🔧</div>
+                <h3>Монтаж за 1 час</h3>
+                <p>Сертифицированные мастера. Используем профессиональную пену, уплотнители и фурнитуру.</p>
+            </div>
+            <div class="advantage reveal">
+                <div class="adv-icon">🛡️</div>
+                <h3>Гарантия 5 лет</h3>
+                <p>Покрываем всё: полотно, коробку, фурнитуру и работы. Бесплатный сервис по гарантии.</p>
+            </div>
+            <div class="advantage reveal">
+                <div class="adv-icon">🚚</div>
+                <h3>Бережная доставка</h3>
+                <p>Собственный автопарк. Фирменная упаковка исключает царапины и сколы при транспортировке.</p>
+            </div>
+            <div class="advantage reveal">
+                <div class="adv-icon">💳</div>
+                <h3>Рассрочка 0%</h3>
+                <p>Оформление за 5 минут. Без первого взноса и скрытых комиссий. До 12 месяцев.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATALOG -->
+<section id="catalog" style="background: var(--color-bg);">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2>Популярные модели</h2>
+            <p>Выберите дверь, которая идеально впишется в ваш интерьер</p>
+        </div>
+        <div class="catalog-grid">
+
+            <!-- Card 1 -->
+            <article class="card reveal">
+                <div class="gallery" data-gallery="1">
+                    <div class="gallery-main">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop" alt="Дверь 1" class="active">
+                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop" alt="Дверь 2">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop" alt="Дверь 3">
+                        <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&h=600&fit=crop" alt="Дверь 4">                        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&h=600&fit=crop" alt="Дверь 5">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop" alt="Дверь 6">
+                    </div>
+                    <button class="gallery-btn prev" aria-label="Предыдущее">❮</button>
+                    <button class="gallery-btn next" aria-label="Следующее">❯</button>
+                    <div class="gallery-counter">1 / 6</div>
+                    <div class="gallery-dots"></div>
+                </div>
+                <div class="card-body">
+                    <span class="card-badge">Хит продаж</span>
+                    <h3>Классика Люкс</h3>
+                    <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom:8px">Межкомнатная • Массив дуба • Глухая</p>
+                    <div class="card-specs">
+                        <span>2000×800 мм</span>
+                        <span>Экошпон</span>
+                        <span>Скрытые петли</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price">18 900 ₽ <small>за полотно</small></div>
+                        <button class="btn btn-primary" style="padding:10px 18px; font-size:0.95rem" onclick="openModal('Классика Люкс — 18 900 ₽')">Заказать</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card reveal">
+                <div class="gallery" data-gallery="2">
+                    <div class="gallery-main">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop" alt="Дверь 1" class="active">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop" alt="Дверь 2">
+                        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop" alt="Дверь 3">
+                        <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&h=600&fit=crop" alt="Дверь 4">
+                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop" alt="Дверь 5">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop" alt="Дверь 6">
+                    </div>
+                    <button class="gallery-btn prev" aria-label="Предыдущее">❮</button>
+                    <button class="gallery-btn next" aria-label="Следующее">❯</button>
+                    <div class="gallery-counter">1 / 6</div>
+                    <div class="gallery-dots"></div>
+                </div>
+                <div class="card-body">
+                    <span class="card-badge">Новинка</span>
+                    <h3>Модерн Софт</h3>
+                    <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom:8px">Межкомнатная • Экошпон • Со стеклом</p>
+                    <div class="card-specs">
+                        <span>2000×700 мм</span>
+                        <span>Матовое стекло</span>
+                        <span>Алюминиевая кромка</span>
+                    </div>
+                    <div class="card-footer">                        <div class="price">12 500 ₽ <small>за полотно</small></div>
+                        <button class="btn btn-primary" style="padding:10px 18px; font-size:0.95rem" onclick="openModal('Модерн Софт — 12 500 ₽')">Заказать</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card reveal">
+                <div class="gallery" data-gallery="3">
+                    <div class="gallery-main">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop" alt="Дверь 1" class="active">
+                        <img src="https://images.unsplash.com/photo-1600585154364-325e4e9e5d3a?w=800&h=600&fit=crop" alt="Дверь 2">
+                        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&h=600&fit=crop" alt="Дверь 3">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop" alt="Дверь 4">
+                        <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&h=600&fit=crop" alt="Дверь 5">
+                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop" alt="Дверь 6">
+                    </div>
+                    <button class="gallery-btn prev" aria-label="Предыдущее">❮</button>
+                    <button class="gallery-btn next" aria-label="Следующее">❯</button>
+                    <div class="gallery-counter">1 / 6</div>
+                    <div class="gallery-dots"></div>
+                </div>
+                <div class="card-body">
+                    <span class="card-badge">Премиум</span>
+                    <h3>Сталь Премиум</h3>
+                    <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom:8px">Входная • Сталь 2 мм • Терморазрыв</p>
+                    <div class="card-specs">
+                        <span>2050×860 мм</span>
+                        <span>3 контура уплотнения</span>
+                        <span>Биометрический замок</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price">34 200 ₽ <small>за полотно</small></div>
+                        <button class="btn btn-primary" style="padding:10px 18px; font-size:0.95rem" onclick="openModal('Сталь Премиум — 34 200 ₽')">Заказать</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- PURCHASE MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+        <button class="modal-close" id="modalClose" aria-label="Закрыть">✕</button>
+        
+        <div id="formView">
+            <h2>Оформить заказ</h2>
+            <p class="modal-product" id="modalProduct"></p>            
+            <form id="orderForm" novalidate>
+                <div class="form-group">
+                    <label for="name">Имя *</label>
+                    <input type="text" id="name" class="form-input" placeholder="Как к вам обращаться?" required>
+                    <div class="error-msg">Укажите ваше имя</div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                    <div class="error-msg">Введите корректный номер телефона</div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес доставки</label>
+                    <input type="text" id="address" class="form-input" placeholder="Город, улица, дом, кв.">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Комментарий</label>
+                    <input type="text" id="comment" class="form-input" placeholder="Цвет, размер, время доставки">
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Отправить заявку</button>
+            </form>
+            <p style="text-align:center; margin-top:12px; font-size:0.8rem; color:var(--color-text-secondary)">
+                Менеджер перезвонит в течение 15 минут для подтверждения
+            </p>
+        </div>
+
+        <div class="success-view" id="successView">
+            <div class="success-icon">✓</div>
+            <h3>Заявка принята!</h3>
+            <p>Мы уже обрабатываем ваш заказ.<br>Ожидайте звонка менеджера.</p>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACTS -->
+<section id="contacts" class="contacts">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2>Контакты</h2>
+            <p>Приезжайте в шоурум или свяжитесь с нами онлайн</p>
+        </div>
+        <div class="contacts-grid reveal">
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <div class="contact-info">
+                    <h4>Шоурум</h4>
+                    <p>г. Москва, ул. Мебельная, д. 15<br>ТЦ «Домашний», 2 этаж, павильон 214</p>
+                </div>
+            </div>            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info">
+                    <h4>Телефоны</h4>
+                    <a href="tel:+78001234567">8 (800) 123-45-67</a> (бесплатно по РФ)<br>
+                    <a href="tel:+74951234567">+7 (495) 123-45-67</a> (Москва)
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">🕐</div>
+                <div class="contact-info">
+                    <h4>Режим работы</h4>
+                    <p>Пн–Пт: 09:00 – 20:00<br>Сб–Вс: 10:00 – 18:00</p>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-info">
+                    <h4>Электронная почта</h4>
+                    <a href="mailto:info@dvermarket.ru">info@dvermarket.ru</a><br>
+                    <a href="mailto:sale@dvermarket.ru">sale@dvermarket.ru</a>
+                </div>
+            </div>
+        </div>
+        <div class="map-wrapper reveal">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.2!2d37.6173!3d55.7558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzIwLjkiTiAzN8KwMzcnMDIuMyJF!5e0!3m2!1sru!2sru!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="color:#fff; font-size:1.3rem; margin-bottom:12px; display:inline-block">Дверь<span>Маркет</span></a>
+                <p>Премиальные двери с доставкой и установкой по всей России. Работаем с 2018 года.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <a href="#advantages">Преимущества</a>
+                <a href="#catalog">Каталог</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+            <div class="footer-col">
+                <h4>Услуги</h4>
+                <p>Бесплатный замер</p>
+                <p>Профессиональный монтаж</p>
+                <p>Рассрочка 0%</p>
+            </div>            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📞 8 (800) 123-45-67</p>
+                <p>✉️ info@dvermarket.ru</p>
+                <p>📍 Москва, ул. Мебельная, 15</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 ДверьМаркет. Все права защищены.</span>
+            <span>Разработка сайта: Qwen3.6</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ===== HEADER SCROLL EFFECT =====
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ===== MOBILE MENU =====
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function toggleMenu(open) {
+        mobileMenu.classList.toggle('open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    burger.addEventListener('click', () => toggleMenu(true));
+    closeMenu.addEventListener('click', () => toggleMenu(false));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // ===== GALLERIES =====
+    document.querySelectorAll('.gallery').forEach(gallery => {
+        const images = gallery.querySelectorAll('.gallery-main img');
+        const prevBtn = gallery.querySelector('.prev');
+        const nextBtn = gallery.querySelector('.next');
+        const counter = gallery.querySelector('.gallery-counter');
+        const dotsContainer = gallery.querySelector('.gallery-dots');
+        let current = 0;
+
+        // Create dots
+        images.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `gallery-dot${i === 0 ? ' active' : ''}`;            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+        const dots = dotsContainer.querySelectorAll('.gallery-dot');
+
+        function goTo(index) {
+            images[current].classList.remove('active');
+            dots[current].classList.remove('active');
+            current = (index + images.length) % images.length;
+            images[current].classList.add('active');
+            dots[current].classList.add('active');
+            counter.textContent = `${current + 1} / ${images.length}`;
+        }
+
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+    });
+
+    // ===== MODAL =====
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalProduct = document.getElementById('modalProduct');
+    const orderForm = document.getElementById('orderForm');
+    const formView = document.getElementById('formView');
+    const successView = document.getElementById('successView');
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+
+    window.openModal = (product) => {
+        modalProduct.textContent = product;
+        formView.style.display = 'block';
+        successView.classList.remove('show');
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        nameInput.focus();
+    };
+
+    function closeModal() {
+        modalOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+    });
+    // ===== FORM VALIDATION & PHONE MASK =====
+    phoneInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 0) {
+            if (val[0] === '8' || val[0] === '7') val = val.substring(1);
+            let out = '+7';
+            if (val.length > 0) out += ' (' + val.substring(0, 3);
+            if (val.length >= 3) out += ') ' + val.substring(3, 6);
+            if (val.length >= 6) out += '-' + val.substring(6, 8);
+            if (val.length >= 8) out += '-' + val.substring(8, 10);
+            e.target.value = out;
+        }
+    });
+
+    function validateForm() {
+        let valid = true;
+        const nameVal = nameInput.value.trim();
+        const phoneVal = phoneInput.value.replace(/\D/g, '');
+
+        if (!nameVal) { nameInput.classList.add('error'); valid = false; }
+        else { nameInput.classList.remove('error'); }
+
+        if (phoneVal.length < 11) { phoneInput.classList.add('error'); valid = false; }
+        else { phoneInput.classList.remove('error'); }
+
+        return valid;
+    }
+
+    orderForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправляем...';
+
+        // Simulate API call
+        setTimeout(() => {
+            formView.style.display = 'none';
+            successView.classList.add('show');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Отправить заявку';
+            orderForm.reset();
+        }, 800);
+    });
+
+    // ===== SCROLL REVEAL =====
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
